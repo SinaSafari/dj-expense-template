@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>EXpense home route</h1>
-<p>Expense list</p>
-<ul class="list-group">
-    <li class="list-group-item">bought milk</li>
-    <li class="list-group-item">bought milk</li>
-    <li class="list-group-item">bought milk</li>
-    <li class="list-group-item">bought milk</li>
-</ul>
-
+{% include 'partials/_messages.html' %}
+<div class="container">
+    <h1>EXpense home route</h1>
+    <p>Expense list</p>
+    <ul class="list-group">
+        <li class="list-group-item">bought milk</li>
+        <li class="list-group-item">bought milk</li>
+        <li class="list-group-item">bought milk</li>
+        <li class="list-group-item">bought milk</li>
+    </ul>
+</div>
 {% endblock %}
