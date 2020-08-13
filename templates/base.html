@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
-    <title>Expense Tracker | {% block title %} {% endblock %}</title>
+    <title>Expense Tracker </title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
 
@@ -42,13 +42,17 @@
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-        <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
+        <ul class="navbar-nav px-3" style="display: flex; flex-direction: row; align-items: center;">
+            <li class="nav-item text-nowrap" >
+                <span class="nav-link" href="">
+                    ({{request.user.username}})     
+                </span>
+              </li>
+            <li class="nav-item text-nowrap ml-2">
                 <!-- <a class="nav-link" href="#">Sign out</a> -->
                 <form action="{% url 'logout' %}" method="POST">
                     {% csrf_token %}
-                    <input class="text text-capitalize" type="submit" value="Sign out">
+                    <input class="text text-capitalize btn btn-primary" type="submit" value="Log out">
                 </form>
             </li>
         </ul>
@@ -56,13 +60,14 @@
 
     <div class="container-fluid">
         <div class="row">
+            
             {% include 'partials/_sidebar.html' %}
-
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                {% block content %}
 
                {% endblock %}
             </main>
+            
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

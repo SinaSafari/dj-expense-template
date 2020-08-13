@@ -135,7 +135,7 @@ class LoginView(View):
                 if user.is_active:
                     auth.login(request, user)
                     messages.success(request, "Welcome, "+user.username+" you are now logged in")
-                    return redirect('expense_index')
+                    return redirect('expenses')
                 
                 messages.error(request, 'Account is not active')
                 return render(request, 'authentication/login.html')
