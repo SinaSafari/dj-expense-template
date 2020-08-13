@@ -4,7 +4,7 @@ from authentication.views import RegistrationView, UsernameValidationView, Email
 
 urlpatterns = [
     path('register', RegistrationView.as_view(), name="register"),
-    path('login', LoginView.as_view(), name="login"),
+    path('login', csrf_exempt(LoginView.as_view()), name="login"),
     path('logout', csrf_exempt(LogoutView.as_view()), name="logout"),
     path('validate-username', csrf_exempt(UsernameValidationView.as_view()), name="validate-username"),
     path('validate-email', csrf_exempt(EmailValidationView.as_view()), name="validate-email"),
