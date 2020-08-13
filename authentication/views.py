@@ -13,7 +13,6 @@ from django.urls import reverse
 from authentication.utils import token_generator
 from django.contrib import auth
 
-from userpreferences.models import UserPreference
 
 
 class UsernameValidationView(View):
@@ -72,7 +71,6 @@ class RegistrationView(View):
                 user.set_password(password)
                 # user.is_active = False
                 user.save()
-                UserPreference.objects.create(user=user, currency="USD - United States Dollar")
                 # current_site = get_current_site(request)
                 # email_body = {
                 #     'user': user,
