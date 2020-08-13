@@ -32,6 +32,11 @@
     <div class="row mb-3">
       <div class="col-md-8">
         <h2>Expenses List</h2>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <a href="{% url 'export-csv' %}" class="btn btn-warning mr-1">Eport CSV</a>
+          <a href="{% url 'export-excel' %}" class="btn btn-success mx-1">Export Excel</a>
+          <a href="{% url 'export-pdf' %}" class="btn btn-danger ml-1">Export PDF</a>
+        </div>
       </div>
       <div class="col-md-4">
 
