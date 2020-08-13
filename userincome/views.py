@@ -8,6 +8,7 @@ import json
 from django.http import JsonResponse
 
 
+
 def search_income(request):
     if request.method == 'POST':
         search_str = json.loads(request.body).get('searchText')
@@ -101,6 +102,7 @@ def income_edit(request, id):
         return redirect('income')
 
 
+@login_required(login_url='/authentication/login')
 def delete_income(request, id):
     income = UserIncome.objects.get(pk=id)
     income.delete()

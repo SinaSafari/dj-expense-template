@@ -13,6 +13,8 @@ from django.urls import reverse
 from authentication.utils import token_generator
 from django.contrib import auth
 
+from userpreferences.models import UserPreference
+
 
 class UsernameValidationView(View):
     def post(self, request):
@@ -51,6 +53,8 @@ class RegistrationView(View):
         # create a user account
 
         username = request.POST['username']
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
         email = request.POST['email']
         password = request.POST['password']
 
@@ -64,10 +68,11 @@ class RegistrationView(View):
                     messages.error(request, 'Password too short')
                     return render(request, 'authentication/register.html', context)
 
-                user = User.objects.create_user(username=username, email=email)
+                user = User.objects.create_user(username=username, email=email, first_name=firstname, last_name=lastname)
                 user.set_password(password)
                 # user.is_active = False
                 user.save()
+                UserPreference.objects.create(user=user, currency="USD - United States Dollar")
                 # current_site = get_current_site(request)
                 # email_body = {
                 #     'user': user,

@@ -12,6 +12,7 @@ import csv
 import xlwt
 
 
+
 def search_expenses(request):
     if request.method == "POST":
         search_str = json.loads(request.body).get('searchText', '')
@@ -23,6 +24,7 @@ def search_expenses(request):
 
         data = expenses.values()
         return JsonResponse(list(data), safe=False)
+
 
 
 @login_required(login_url='/authentication/login')
@@ -41,6 +43,7 @@ def index(request):
         'currency': currency
     }
     return render(request, 'expenses/index.html', context)
+
 
 @login_required(login_url='/authentication/login')
 def add_expense(request):
@@ -72,6 +75,8 @@ def add_expense(request):
         return redirect('expenses')
 
 
+
+@login_required(login_url='/authentication/login')
 def expense_edit(request, id):
     expense = Expense.objects.get(pk=id)
     categories = Category.objects.all()
@@ -110,6 +115,7 @@ def expense_edit(request, id):
         return redirect('expenses')
 
 
+@login_required(login_url='/authentication/login')
 def delete_expense(request, id):
     expense = Expense.objects.get(pk=id)
     expense.delete()
@@ -118,6 +124,7 @@ def delete_expense(request, id):
 
 
 
+@login_required(login_url='/authentication/login')
 def expense_category_summary(request):
     todays_date = datetime.date.today()
     six_months_ago = todays_date - datetime.timedelta(days=30*6)
@@ -145,10 +152,40 @@ def expense_category_summary(request):
     return JsonResponse({'expense_category_data': finalrep}, safe=False)
 
 
+@login_required(login_url='/authentication/login')
+def expense_category_summary_month(request):
+    todays_date = datetime.date.today()
+    one_months_ago = todays_date - datetime.timedelta(days=31)
+    expenses = Expense.objects.filter(owner=request.user, date__gte=one_months_ago, date__lte=todays_date)
+    finalrep = {}
+
+    def get_category(expense):
+        return expense.category
+
+    category_list = list(set(map(get_category, expenses)))
+
+
+    def get_category_amount(category):
+        amount = 0
+        filtered_by_category = expenses.filter(category=category)
+        for item in filtered_by_category:
+            amount += item.amount
+        return amount
+
+
+    for x in expenses:
+        for y in category_list:
+            finalrep[y] = get_category_amount(y)
+
+    return JsonResponse({'expense_category_data_month': finalrep}, safe=False)
+
+
+@login_required(login_url='/authentication/login')
 def stats_view(request):
     return render(request, 'expenses/stats.html')
 
 
+@login_required(login_url='/authentication/login')
 def export_csv(request):
 
     response = HttpResponse(content_type='text/csv')
@@ -164,7 +201,7 @@ def export_csv(request):
 
     return response
 
-
+@login_required(login_url='/authentication/login')
 def export_excel(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename=Expenses' + str(datetime.datetime.now()) + '.xls'
@@ -189,5 +226,7 @@ def export_excel(request):
     
     return response
 
+
+@login_required(login_url='/authentication/login')
 def export_pdf(request):
     pass
